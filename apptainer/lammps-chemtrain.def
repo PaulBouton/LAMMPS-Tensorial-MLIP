@@ -42,23 +42,32 @@ From: ubuntu:26.04
     cmake ../cmake --preset=chemtrain
     make -j "$(nproc)"
     
-    # Cleaning to lighten the image
-    apt purge -y git build-essential wget curl software-properties-common cmake libopenmpi-dev ${python_version}-dev
+    #Cleaning to lighten the image
+    apt purge -y git build-essential wget curl software-properties-common cmake libopenmpi-dev ${python_version}-dev python3
     apt autoclean -y && apt autoremove --purge -y && apt clean -y && apt autopurge -y
-    
-    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /root/.cache
 
+    #Remove tools only needed for build
     rm -rf CMakeCache.txt CMakeFiles Makefile cmake_install.cmake
     rm -rf {{ APP_DIR }}/tensorial
     rm -rf {{ APP_DIR }}/chemtrain
     rm -rf {{ APP_DIR }}/cmake
     rm -rf {{ APP_DIR }}/src/!(CHEMTRAIN-DEPLOY)
-    rm -rf {{ APP_DIR }}/python/!(model-export)
+    rm -rf {{ APP_DIR }}/build/styles {{ APP_DIR }}/build/include
 
+    #Clean model-export python directory
+    rm -rf {{ APP_DIR }}/python/!(model-export)
+    rm -rf {{ APP_DIR }}/python/model-export/*test*
+    rm -rf {{ APP_DIR }}/python/model-export/__pycache__
+
+    #Pip cleaning
     pip cache purge
     find {{ PYTHON_VENV_DIR }} -type d -name __pycache__ -prune -exec rm -rf {} +
     find {{ PYTHON_VENV_DIR }} -type d \( -name tests -o -name test \) -prune -exec rm -rf {} +
     find {{ PYTHON_VENV_DIR }} -name '*.a' -delete
+    find {{ PYTHON_VENV_DIR }} -name '*.pyc' -delete
+
+    #System cleaning
+    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /root/.cache
 
 %runscript
     #!/bin/bash

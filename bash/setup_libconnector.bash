@@ -42,7 +42,7 @@ elif [[ "$TARGET_ARCH" == "cuda" ]]; then
       --build_gpu_pjrt_plugin \
       --cuda_version=${cuda_version} \
       --cudnn_version=${cudnn_version} \
-      --cuda_compute_capabilities=${cuda_compute_version} \
+      --cuda_compute_capabilities=${cuda_compute_version}
 else
     git checkout ${SCRIPT_DIR}/../chemtrain
     echo -e "Invalid target Architecture!"
