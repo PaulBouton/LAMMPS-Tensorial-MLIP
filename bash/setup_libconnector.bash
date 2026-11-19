@@ -25,38 +25,28 @@ TARGET_ARCH="$2"
 #Activate python venv
 source ${VENV_DIR}/bin/activate
 
-#Use a custom build script to use a recent version of bazel
-chemtrain_deploy_dir="${SCRIPT_DIR}/../chemtrain/chemtrain-deploy/"
-cp ${SCRIPT_DIR}/../python/chemtrain-deploy-bazel-build.py ${chemtrain_deploy_dir}
-mv ${chemtrain_deploy_dir}/build.py ${chemtrain_deploy_dir}/build.py.bak
-mv ${chemtrain_deploy_dir}/chemtrain-deploy-bazel-build.py ${chemtrain_deploy_dir}/build.py
+#Setup build options
+build_options="--output_path=out --install_location=lib"
+#Bazel specific options
+build_options="${build_options} --bazel_options=--discard_analysis_cache"
+build_options="${build_options} --bazel_option=--spawn_strategy=local"
+build_options="${build_options} --bazel_options=--local_resources=memory=HOST_RAM*.6" # Restrict RAM usage to avoid PC freezes
 
 cd ${SCRIPT_DIR}/../chemtrain/chemtrain-deploy
 
 if [[ "$TARGET_ARCH" == "cpu" ]]; then
-    python build.py \
-      --build_cpu_pjrt_plugin \
-      --target_cpu_features=default \
-      --output_path="$PWD/out" \
-      --install_location="$PWD/lib"
+    python build.py ${build_options} --build_cpu_pjrt_plugin
 elif [[ "$TARGET_ARCH" == "cuda" ]]; then
-    python build.py \
-      --bazel_options=--discard_analysis_cache \
-      --bazel_option=--spawn_strategy=local \
-      --bazel_options=--disk_cache=$PWD \
+    python build.py ${build_options} \
       --enable_cuda \
       --build_gpu_pjrt_plugin \
       --cuda_version=${cuda_version} \
       --cudnn_version=${cudnn_version} \
-      --cuda_compute_capabilities=${cuda_compute_version} \
-      --target_cpu_features=default \
-      --output_path="$PWD/out" \
-      --install_location="$PWD/lib"
+      --cuda_compute_capabilities=${cuda_compute_version}
 else
     git checkout ${SCRIPT_DIR}/../chemtrain
     echo -e "Invalid target Architecture!"
     exit 1
 fi
 
-mv ${chemtrain_deploy_dir}/build.py.bak ${chemtrain_deploy_dir}/build.py
 cd ${CUR_DIR}

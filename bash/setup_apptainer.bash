@@ -9,7 +9,7 @@ source "${SCRIPT_DIR}/utils.bash"
 set -e
 
 help() {
-    echo -e "${BOLD}Usage:${GREEN} $(basename "$0") ${RESET}${RED} <cpu/cuda> [optional]<compression_level>${RESET}"
+    echo -e "${BOLD}Usage:${GREEN} $(basename "$0") ${RESET}${RED} <cpu/cuda> [optional]<compression_level[1-22]>${RESET}"
     exit 1
 }
 
@@ -21,7 +21,7 @@ TARGET_ARCH="$1"
 COMPRESSION_LEVEL="$2"
 
 if [[ -z "$COMPRESSION_LEVEL"  ]]; then
-    COMPRESSION_LEVEL=19
+    COMPRESSION_LEVEL=19 #Default value for nice tradeoff
 fi
 
 echo -e "${GREEN}${BOLD}Targeted Compression Level : $COMPRESSION_LEVEL${BOLD}"
