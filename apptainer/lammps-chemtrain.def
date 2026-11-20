@@ -73,7 +73,7 @@ From: ubuntu:26.04
     #!/bin/bash
     cmd="${1:-}"; [ $# -gt 0 ] && shift
     case "$cmd" in
-        lmp)    exec mpirun --use-hwthread-cpus lmp -in "$@" ;;
+        lmp)    mpirun -np "${NP:-1}" lmp -in "$@" ;;
         export) exec {{ PYTHON_VENV_DIR }}/bin/python {{ APP_DIR }}/python/model-export/export-model.py "$@" ;;
         *)      echo "Unknown command: $cmd" >&2; exit 1 ;;
     esac
