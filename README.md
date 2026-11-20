@@ -121,7 +121,7 @@ cmake ../cmake --preset=chemtrain-cuda-hopper # For Nvidia Hopper based GPU
 make -j $(nproc --all)
 ```
 
-## Build Apptainer Containers
+## Build and Run Apptainer Containers
 
 To build Apptainer containers, you can use the provided bash scripts.
 
@@ -134,14 +134,13 @@ Please note that for the **CUDA** container, you'll need to modify the script `b
 
 #Run The containers
 # Run LAMMPS (CPU)
-apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
+export NP=<number_of_CPU> && apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
 # Run LAMMPS (CUDA)
 export NP=<number_of_GPU> && apptainer run --nv lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial-gpu
 # Export model checkpoint to a ptb file which can be read by LAMMPS
 apptainer run lammps-chemtrain.sif export -c config.yaml -ck last.cpkt
 ```
-
-## Tests
+**Please note that the ```export NP``` is only required if you want to restrict ressources usage. You can omit it if it's not the case.**
 
 To test the export-model script, run the following command :
 
