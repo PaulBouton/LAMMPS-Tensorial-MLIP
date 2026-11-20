@@ -5,9 +5,6 @@ CUR_DIR="$(pwd)"
 
 source "${SCRIPT_DIR}/utils.bash"
 
-#Exit on Error
-set -e
-
 help() {
     echo -e "${BOLD}Usage:${GREEN} $(basename "$0") ${RESET}${RED} <cpu/cuda> [optional]<compression_level[1-22]>${RESET}"
     exit 1
