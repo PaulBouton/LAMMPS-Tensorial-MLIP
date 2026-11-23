@@ -32,8 +32,6 @@ From: ubuntu:26.04
     {{ APP_DIR }}/bash/setup_python_venv.bash {{ PYTHON_VENV_DIR }} cuda
 
     source {{ PYTHON_VENV_DIR }}/bin/activate
-    
-    pip install --upgrade pip
 
     {{ APP_DIR }}/bash/setup_libconnector.bash {{ PYTHON_VENV_DIR }} cuda
     mv {{ APP_DIR }}/chemtrain/chemtrain-deploy/lib {{ APP_DIR }}/src/CHEMTRAIN-DEPLOY/lib-cuda
