@@ -26,8 +26,8 @@ rm -rf /var/lib/apt/lists/*
 
 #Remove tools only needed for build
 rm -rf CMakeCache.txt CMakeFiles Makefile cmake_install.cmake
-rm -rf ${APP_DIR}/tensorial
-rm -rf ${APP_DIR}/chemtrain
+rm -rf ${APP_DIR}/tensorial/!(src)
+rm -rf ${APP_DIR}/chemtrain/!(chemtrain-deploy|chemtrain|jax_md_mod)
 rm -rf ${APP_DIR}/cmake
 rm -rf ${APP_DIR}/src/!(CHEMTRAIN-DEPLOY)
 rm -rf ${APP_DIR}/build/styles ${APP_DIR}/build/include
@@ -39,12 +39,13 @@ rm -rf ${APP_DIR}/python/model-export/__pycache__
 
 #Pip cleaning
 pip cache purge
-find ${PYTHON_VENV_DIR} -type d -name __pycache__ -prune -exec rm -rf {} +
+find ${APP_DIR} -type d -name __pycache__ -prune -exec rm -rf {} +
 find ${PYTHON_VENV_DIR} -type d \( -name tests -o -name test \) -prune -exec rm -rf {} +
 find ${PYTHON_VENV_DIR} -name '*.a' -delete
 find ${PYTHON_VENV_DIR} -name '*.pyc' -delete
 rm -rf ${PYTHON_VENV_DIR}/lib/python*/site-packages/nvidia/*/include
 
 #System cleaning
-rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /root/.cache
+rm -rf /var/lib/apt/lists/* /usr/share
+rm -rf /root/.cache /root/.local
 
