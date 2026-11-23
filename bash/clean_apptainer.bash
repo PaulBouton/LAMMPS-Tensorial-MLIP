@@ -44,7 +44,11 @@ find ${PYTHON_VENV_DIR} -type d \( -name tests -o -name test \) -prune -exec rm 
 find ${PYTHON_VENV_DIR} -name '*.a' -delete
 find ${PYTHON_VENV_DIR} -name '*.pyc' -delete
 rm -rf ${PYTHON_VENV_DIR}/lib/python*/site-packages/nvidia/*/include
+rm -rf ${PYTHON_VENV_DIR}/share
 
+#Remove unused Python packages
+rm -rf ${PYTHON_VENV_DIR}/bin/ty
+rm -rf ${PYTHON_VENV_DIR}/bin/ruff
 #System cleaning
 rm -rf /var/lib/apt/lists/* /usr/share
 rm -rf /root/.cache /root/.local
