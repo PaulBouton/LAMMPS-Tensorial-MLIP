@@ -44,4 +44,18 @@ jobs:
           apptainer-version: latest
 
       - name: Build container
-        run: ./bash/setup_apptainer.bash cpu 10
+        run: |
+          echo "Building Apptainer image"
+          ./bash/setup_apptainer.bash cpu 10
+          echo "Copying Needed data"
+          cp examples/PACKAGES/chemtrain-deploy/config.yaml apptainer
+          cp examples/PACKAGES/chemtrain-deploy/tensorial-metal.ptb apptainer
+          cp examples/PACKAGES/chemtrain-deploy/in.chemtrain-deploy-bulk-tensorial apptainer
+          cp examples/PACKAGES/chemtrain-deploy/last.ckpt apptainer
+          cd apptainer
+          echo "Testing Model Export"
+          apptainer run lammps-chemtrain.sif export -c config.yaml -ck last.ckpt
+          echo "Testing LAMMPS MD using exported MLIP"
+          sed -i 's/^run             100$/run             10/' in.chemtrain-deploy-bulk-tensorial
+          apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
+          echo "Done"
