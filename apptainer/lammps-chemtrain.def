@@ -22,12 +22,12 @@ From: ubuntu:26.04
     
     source {{ APP_DIR }}/bash/utils.bash
 
-    apt update
-    apt install --no-install-recommends -y git build-essential wget libopenmpi-dev openmpi-bin curl software-properties-common cmake
+    apt-get -o Acquire::Retries=5  update
+    apt-get -o Acquire::Retries=5  install --no-install-recommends -y git build-essential wget libopenmpi-dev openmpi-bin curl software-properties-common cmake
 
     add-apt-repository -y ppa:deadsnakes/ppa
-    apt update
-    apt install -y ${python_version} ${python_version}-venv ${python_version}-dev
+    apt-get -o Acquire::Retries=5  update
+    apt-get -o Acquire::Retries=5  install -y ${python_version} ${python_version}-venv ${python_version}-dev
 
     bash {{ APP_DIR }}/bash/setup_python_venv.bash {{ PYTHON_VENV_DIR }} cpu
 
