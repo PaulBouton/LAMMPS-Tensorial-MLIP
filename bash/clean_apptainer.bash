@@ -27,7 +27,7 @@ rm -rf /var/lib/apt/lists/*
 #Remove tools only needed for build
 rm -rf CMakeCache.txt CMakeFiles Makefile cmake_install.cmake
 rm -rf ${APP_DIR}/tensorial
-rm -rf ${APP_DIR}/chemtrain
+rm -rf ${APP_DIR}/chemtrain/!(chemtrain-deploy|chemtrain|jax_md_mod)
 rm -rf ${APP_DIR}/cmake
 rm -rf ${APP_DIR}/src/!(CHEMTRAIN-DEPLOY)
 rm -rf ${APP_DIR}/build/styles ${APP_DIR}/build/include
