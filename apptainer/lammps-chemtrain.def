@@ -33,8 +33,6 @@ From: ubuntu:26.04
 
     source {{ PYTHON_VENV_DIR }}/bin/activate
 
-    pip install --upgrade pip
-
     cd {{ APP_DIR }}
     mkdir -p build && cd build
     cmake ../cmake --preset=chemtrain
