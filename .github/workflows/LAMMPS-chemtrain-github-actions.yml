@@ -1,4 +1,4 @@
-name: GitHub Actions merge
+name: LAMMPS Chemtrain GitHub Actions
 
 on:
   push:
