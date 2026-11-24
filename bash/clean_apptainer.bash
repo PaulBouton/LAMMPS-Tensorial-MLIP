@@ -20,8 +20,10 @@ APP_DIR="$1"
 PYTHON_VENV_DIR="$2"
 
 #Cleaning to lighten the image
-apt purge -y git build-essential wget curl software-properties-common cmake patchelf clang libopenmpi-dev ${python_version}-dev python3
-apt autoclean -y && apt autoremove --purge -y && apt clean -y && apt autopurge -y
+apt-get purge -y git build-essential wget curl software-properties-common cmake patchelf clang libopenmpi-dev ${python_version}-dev python3
+apt-get autoclean -y
+apt-get autoremove --purge -y
+apt-get clean -y
 rm -rf /var/lib/apt/lists/*
 
 #Remove tools only needed for build
@@ -50,6 +52,7 @@ rm -rf ${PYTHON_VENV_DIR}/share
 rm -rf ${PYTHON_VENV_DIR}/bin/ty
 rm -rf ${PYTHON_VENV_DIR}/bin/ruff
 #System cleaning
-rm -rf /var/lib/apt/lists/* /usr/share
-rm -rf /root/.cache /root/.local
+rm -rf /usr/share
+rm -rf /root/.cache
+rm -rf /root/.local
 
