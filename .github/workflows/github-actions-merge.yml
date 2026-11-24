@@ -59,3 +59,33 @@ jobs:
           sed -i 's/^run             100$/run             10/' in.chemtrain-deploy-bulk-tensorial
           apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
           echo "Done"
+
+  build-LAMMMPS:
+    name: Build LAMMPS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Set up Git LFS
+        run: |
+         git lfs install
+         git lfs pull
+
+      - name: Build LAMMPS
+        run: |
+          echo "Setting up Python Virtual environment"
+          ./bash/setup_python_venv.bash venv cpu
+          echo "Installing OpenMPI"
+          sudo apt-get update
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+          echo "Building LAMMPS"
+          mkdir build && cd build
+          cmake ../cmake --preset=chemtrain
+          make -j $(nproc --all)
