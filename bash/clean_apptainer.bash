@@ -48,9 +48,39 @@ find ${PYTHON_VENV_DIR} -name '*.pyc' -delete
 rm -rf ${PYTHON_VENV_DIR}/lib/python*/site-packages/nvidia/*/include
 rm -rf ${PYTHON_VENV_DIR}/share
 
-#Remove unused Python packages
-rm -rf ${PYTHON_VENV_DIR}/bin/ty
-rm -rf ${PYTHON_VENV_DIR}/bin/ruff
+#Remove Python test and code coverage packages
+pip uninstall -y pytest pytest_cov pytest_mock pytest_env \
+                 pytest_codspeed coverage pluggy iniconfig
+
+#Remove Jupyter packages
+pip uninstall -y \
+  notebook notebook_shim jupyter jupyter_core jupyter_client jupyter_server jupyterlab jupyterlab_pygments \
+  ipykernel ipywidgets widgetsnbextension comm debugpy nest_asyncio2 \
+  nbconvert nbformat nbclient fastjsonschema \
+  terminado send2trash prometheus_client websocket_client json5 async_lru python_json_logger \
+  mistune bleach webencodings tinycss2 defusedxml pandocfilters pandoc \
+  fqdn isoduration arrow jsonpointer rfc3339_validator rfc3986_validator rfc3987_syntax uri_template webcolors lark \
+  argon2_cffi argon2_cffi_bindings
+
+#Remove Ipython related packages
+pip uninstall -y ipython ipython_pygments_lexers matplotlib_inline jedi parso prompt_toolkit wcwidth \
+  pexpect ptyprocess stack_data executing asttokens pure_eval
+
+#Remove Python doc packages
+pip uninstall -y \
+  sphinx sphinx_rtd_theme sphinx_autodoc_typehints sphinx_autobuild sphinx_copybutton sphinx_design \
+  sphinxcontrib_applehelp sphinxcontrib_devhelp sphinxcontrib_htmlhelp sphinxcontrib_jsmath \
+  sphinxcontrib_qthelp sphinxcontrib_serializinghtml \
+  myst_parser mdit_py_plugins nbsphinx furo pydata_sphinx_theme \
+  alabaster accessible_pygments imagesize roman_numerals snowballstemmer babel \
+  starlette uvicorn uvloop watchfiles websockets docutils
+
+#Remove Python dev tools Packages
+pip uninstall -y \
+  pylint astroid isort mccabe mypy_extensions tomlkit \
+  pre_commit identify cfgv nodeenv virtualenv distlib python_discovery \
+  flit flit_core build tomli_w ruff ty
+
 #System cleaning
 rm -rf /usr/share
 rm -rf /root/.cache
