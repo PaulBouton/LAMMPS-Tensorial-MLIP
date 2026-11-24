@@ -19,17 +19,19 @@ fi
 APP_DIR="$1"
 PYTHON_VENV_DIR="$2"
 
-#Cleaning to lighten the image
+#Cleaning apt packages
 apt-get purge -y git build-essential wget curl software-properties-common cmake patchelf clang libopenmpi-dev ${python_version}-dev python3
 apt-get autoclean -y
 apt-get autoremove --purge -y
 apt-get clean -y
 rm -rf /var/lib/apt/lists/*
 
+#Clean chemtrain directory
+rm -rf ${APP_DIR}/chemtrain/!(chemtrain|jax_md_mod)
+
 #Remove tools only needed for build
 rm -rf CMakeCache.txt CMakeFiles Makefile cmake_install.cmake
 rm -rf ${APP_DIR}/tensorial/!(src)
-rm -rf ${APP_DIR}/chemtrain/!(chemtrain-deploy|chemtrain|jax_md_mod)
 rm -rf ${APP_DIR}/cmake
 rm -rf ${APP_DIR}/src/!(CHEMTRAIN-DEPLOY)
 rm -rf ${APP_DIR}/build/styles ${APP_DIR}/build/include
@@ -60,7 +62,8 @@ pip uninstall -y \
   terminado send2trash prometheus_client websocket_client json5 async_lru python_json_logger \
   mistune bleach webencodings tinycss2 defusedxml pandocfilters pandoc \
   fqdn isoduration arrow jsonpointer rfc3339_validator rfc3986_validator rfc3987_syntax uri_template webcolors lark \
-  argon2_cffi argon2_cffi_bindings
+  jupyter_builder jupyter_console jupyter_events jupyter_lsp jupyter_server_terminals \
+  jupyterlab_server jupyterlab_widgets argon2_cffi argon2_cffi_bindings
 
 #Remove Ipython related packages
 pip uninstall -y ipython ipython_pygments_lexers matplotlib_inline jedi parso prompt_toolkit wcwidth \
@@ -70,10 +73,10 @@ pip uninstall -y ipython ipython_pygments_lexers matplotlib_inline jedi parso pr
 pip uninstall -y \
   sphinx sphinx_rtd_theme sphinx_autodoc_typehints sphinx_autobuild sphinx_copybutton sphinx_design \
   sphinxcontrib_applehelp sphinxcontrib_devhelp sphinxcontrib_htmlhelp sphinxcontrib_jsmath \
-  sphinxcontrib_qthelp sphinxcontrib_serializinghtml \
+  sphinxcontrib_qthelp sphinxcontrib_serializinghtml dataclasses \
   myst_parser mdit_py_plugins nbsphinx furo pydata_sphinx_theme \
   alabaster accessible_pygments imagesize roman_numerals snowballstemmer babel \
-  starlette uvicorn uvloop watchfiles websockets docutils
+  starlette uvicorn uvloop watchfiles websockets docutils sphinx_paramlinks
 
 #Remove Python dev tools Packages
 pip uninstall -y \
