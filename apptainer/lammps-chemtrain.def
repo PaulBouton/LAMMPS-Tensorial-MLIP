@@ -18,56 +18,27 @@ From: ubuntu:26.04
     export PATH={{ APP_DIR }}/build:$PATH
 
 %post -c /bin/bash
-    shopt -s extglob
-    set -e
     export DEBIAN_FRONTEND=noninteractive
     
     source {{ APP_DIR }}/bash/utils.bash
 
-    apt update
-    apt install --no-install-recommends -y git build-essential wget libopenmpi-dev openmpi-bin curl software-properties-common cmake
+    apt-get -o Acquire::Retries=5  update
+    apt-get -o Acquire::Retries=5  install --no-install-recommends -y git build-essential wget libopenmpi-dev openmpi-bin curl software-properties-common cmake
 
     add-apt-repository -y ppa:deadsnakes/ppa
-    apt update
-    apt install -y ${python_version} ${python_version}-venv ${python_version}-dev
+    apt-get -o Acquire::Retries=5  update
+    apt-get -o Acquire::Retries=5  install -y ${python_version} ${python_version}-venv ${python_version}-dev
 
-    cd {{ APP_DIR }}
-    bash bash/setup_python_venv.bash {{ PYTHON_VENV_DIR }} cpu
+    bash {{ APP_DIR }}/bash/setup_python_venv.bash {{ PYTHON_VENV_DIR }} cpu
 
     source {{ PYTHON_VENV_DIR }}/bin/activate
 
-    pip install --upgrade pip
-
+    cd {{ APP_DIR }}
     mkdir -p build && cd build
     cmake ../cmake --preset=chemtrain
     make -j "$(nproc)"
     
-    #Cleaning to lighten the image
-    apt purge -y git build-essential wget curl software-properties-common cmake libopenmpi-dev ${python_version}-dev python3
-    apt autoclean -y && apt autoremove --purge -y && apt clean -y && apt autopurge -y
-
-    #Remove tools only needed for build
-    rm -rf CMakeCache.txt CMakeFiles Makefile cmake_install.cmake
-    rm -rf {{ APP_DIR }}/tensorial
-    rm -rf {{ APP_DIR }}/chemtrain
-    rm -rf {{ APP_DIR }}/cmake
-    rm -rf {{ APP_DIR }}/src/!(CHEMTRAIN-DEPLOY)
-    rm -rf {{ APP_DIR }}/build/styles {{ APP_DIR }}/build/include
-
-    #Clean model-export python directory
-    rm -rf {{ APP_DIR }}/python/!(model-export)
-    rm -rf {{ APP_DIR }}/python/model-export/*test*
-    rm -rf {{ APP_DIR }}/python/model-export/__pycache__
-
-    #Pip cleaning
-    pip cache purge
-    find {{ PYTHON_VENV_DIR }} -type d -name __pycache__ -prune -exec rm -rf {} +
-    find {{ PYTHON_VENV_DIR }} -type d \( -name tests -o -name test \) -prune -exec rm -rf {} +
-    find {{ PYTHON_VENV_DIR }} -name '*.a' -delete
-    find {{ PYTHON_VENV_DIR }} -name '*.pyc' -delete
-
-    #System cleaning
-    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /root/.cache
+    {{ APP_DIR }}/bash/clean_apptainer.bash {{ APP_DIR }} {{ PYTHON_VENV_DIR }} 
 
 %runscript
     #!/bin/bash

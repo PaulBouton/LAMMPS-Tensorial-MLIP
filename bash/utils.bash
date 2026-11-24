@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Exit on Error
+set -e
+
 #Bash color for prints
 RED=$'\033[0;31m'
 GREEN=$'\033[0;32m'

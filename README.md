@@ -123,6 +123,13 @@ make -j $(nproc --all)
 
 ## Build and Run Apptainer Containers
 
+For now, LAMMPS and Tensorial codes are tested using ```Python 3.13```. Therefore you'll need to install it before building the containers :
+```bash
+add-apt-repository -y ppa:deadsnakes/ppa
+apt update
+apt install -y python-3.13
+```
+
 To build Apptainer containers, you can use the provided bash scripts.
 
 Please note that for the **CUDA** container, you'll need to modify the script `bash/utils.bash` to match your cluster packages installation.
