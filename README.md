@@ -1,24 +1,26 @@
-# LAMMPS CHEMTRAIN DEPLOY
+# LAMMPS WITH TENSORIAL MLIP
 
-[![CI](https://github.com/PaulBouton/lammps-chemtrain/actions/workflows/LAMMPS-chemtrain-github-actions.yml/badge.svg)](https://github.com/PaulBouton/lammps-chemtrain/actions/workflows/LAMMPS-chemtrain-github-actions.yml) [![Paper](https://img.shields.io/badge/Paper-chemtrain-blue)](https://doi.org/10.1016/j.cpc.2025.109512) [![Paper](https://img.shields.io/badge/Paper-chemtrain--deploy-blue)
-](https://doi.org/10.1021/acs.jctc.5c00996) [![LAMMPS fork](https://img.shields.io/badge/LAMMPS_fork-chemtrain--deploy-yellow)](https://github.com/tummfm/lammps/tree/chemtrain-deploy)
+[![CI](https://github.com/PaulBouton/lammps-chemtrain/actions/workflows/LAMMPS-chemtrain-github-actions.yml/badge.svg)](https://github.com/PaulBouton/lammps-chemtrain/actions/workflows/LAMMPS-chemtrain-github-actions.yml) [![Paper](https://img.shields.io/badge/Paper-chemtrain-blue)](https://doi.org/10.1016/j.cpc.2025.109512) [![Paper](https://img.shields.io/badge/Paper-chemtrain--deploy-blue)](https://doi.org/10.1021/acs.jctc.5c00996) [![LAMMPS fork](https://img.shields.io/badge/LAMMPS_fork-chemtrain--deploy-yellow)](https://github.com/tummfm/lammps/tree/chemtrain-deploy)
 
-This repo is built on top of this [LAMMPS fork](https://github.com/tummfm/lammps/tree/chemtrain-deploy) from [ChemTrain repo](https://github.com/tummfm/chemtrain) developers.
+LAMMPS WITH TENSORIAL MLIP code is built on top of this [LAMMPS fork](https://github.com/tummfm/lammps/tree/chemtrain-deploy).
 
 **LAMMPS** stands for **L**arge-scale **A**tomic/**M**olecular **M**assively **P**arallel **S**imulator.
 
-This is the **LAMMPS** software package with the chemtrain deploy package linked to the code.
+This code is composed of the **LAMMPS** software package with the chemtrain-deploy and tensorial packages linked to it.
 
-The **MLIP models** from https://github.com/camml-lab/tensorial.git are supported by this **LAMMPS** version.
+The **MLIP models** from [tensorial](https://github.com/camml-lab/tensorial.git) are supported by this **LAMMPS** modified version.
 
+The code is maintained by Paul Bouton development team who can be emailed at paul.bouton@cnrs.fr.
 
-Copyright (2003) Sandia Corporation. Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation, the U.S. Government retains certain rights in this software. This software is distributed under the GNU General Public License.
+## LAMMPS
 
 **LAMMPS** is a classical molecular dynamics simulation code designed to run efficiently on parallel computers. It was developed at Sandia National Laboratories, a US Department of Energy facility, with funding from the DOE. It is an open-source code, distributed freely under the terms of the GNU Public License (GPL) version 2.
 
-The code is maintained by the LAMMPS development team who can be emailed at developers@lammps.org.
+The LAMMPS code is maintained by the LAMMPS development team who can be emailed at developers@lammps.org.
 
 The **LAMMPS** website at [www.lammps.org](https://www.lammps.org) has more information about the code and its uses.
+
+Copyright (2003) Sandia Corporation protect LAMMPS code. Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation, the U.S. Government retains certain rights in this software. This software is distributed under the GNU General Public License.
 
 ## Distribution contents
 
@@ -47,7 +49,7 @@ The LAMMPS distribution includes the following files and directories:
 | `unittest` | test programs for use with CTest |
 | `.github` | Git and GitHub related files and tools |
 
-## Documentation
+## Useful Documentation
 
 Point your browser at any of these links to get started:
 
@@ -69,10 +71,23 @@ cd doc
 make html                # creates HTML pages in doc/html
 make pdf                 # creates Manual.pdf
 ```
+## Git Hooks
 
-## Installation Instructions
+If you want to contribute, **you have to** enable custom Git hooks running the following command:
 
-#### Python venv initialisation
+```bash
+./bash/setup_hooks.bash
+```
+
+## Github CI
+
+All GitHub CI pipelines are stored in ```.github/workflows```.
+
+These pipelines must pass before a pull request can be merged.
+
+## Installation and execution Instructions
+
+#### Python virtual environment initialization
 
 **First install all required Python packages in your Python venv** using the followinf script:
 
@@ -81,7 +96,7 @@ make pdf                 # creates Manual.pdf
 ```
 
 
-#### Chemtrain deploy connector compilation
+#### Chemtrain-deploy connector compilation
 
 The CPU connector is already stored next to the connector sources in `lammps-chemtrain/src/CHEMTRAIN-DEPLOY/lib`
 
@@ -159,17 +174,3 @@ source <path_to_your_venv>/bin/activate
 cd lammps-chemtrain
 pytest python/model-export/tests/test_export_model.py -v
 ```
-
-## Git Hooks
-
-If you want to contribute, **you have to** enable custom Git hooks running the following command:
-
-```bash
-./bash/setup_hooks.bash
-```
-
-## Github CI
-
-All GitHub CI pipelines are stored in ```.github/workflows```.
-
-These pipelines must pass before a pull request can be merged.
