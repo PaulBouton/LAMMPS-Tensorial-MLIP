@@ -57,11 +57,12 @@ jobs:
           cp examples/PACKAGES/chemtrain-deploy/in.chemtrain-deploy-bulk-tensorial apptainer
           cp examples/PACKAGES/chemtrain-deploy/last.ckpt apptainer
           cd apptainer
+          sif_file=$(ls lammps-chemtrain*.sif)
           echo "Testing Model Export"
-          apptainer run lammps-chemtrain.sif export -c config.yaml -ck last.ckpt
+          apptainer run ${sif_file} export -c config.yaml -ck last.ckpt
           echo "Testing LAMMPS MD using exported MLIP"
           sed -i 's/^run             100$/run             10/' in.chemtrain-deploy-bulk-tensorial
-          apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
+          apptainer run ${sif_file} lmp in.chemtrain-deploy-bulk-tensorial
           echo "Done"
 
   build-LAMMMPS:
