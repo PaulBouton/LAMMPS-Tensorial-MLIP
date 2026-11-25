@@ -2,3 +2,4 @@ cmake/.qtcreator
 build
 *log.lammps
 __pycache__
+bash/VERSIONS.txt

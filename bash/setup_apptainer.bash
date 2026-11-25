@@ -5,11 +5,8 @@ CUR_DIR="$(pwd)"
 
 source "${SCRIPT_DIR}/utils.bash"
 
-#Exit on Error
-set -e
-
 help() {
-    echo -e "${BOLD}Usage:${GREEN} $(basename "$0") ${RESET}${RED} <cpu/cuda> [optional]<compression_level>${RESET}"
+    echo -e "${BOLD}Usage:${GREEN} $(basename "$0") ${RESET}${RED} <cpu/cuda> [optional]<compression_level[1-22]>${RESET}"
     exit 1
 }
 
@@ -21,10 +18,14 @@ TARGET_ARCH="$1"
 COMPRESSION_LEVEL="$2"
 
 if [[ -z "$COMPRESSION_LEVEL"  ]]; then
-    COMPRESSION_LEVEL=19
+    COMPRESSION_LEVEL=19 #Default value for nice tradeoff
 fi
 
 echo -e "${GREEN}${BOLD}Targeted Compression Level : $COMPRESSION_LEVEL${BOLD}"
+
+#Get Git info and store them for version control
+${SCRIPT_DIR}/get_git_info.bash
+version_tag=$(git describe --tags --abbrev=0)
 
 #Change tmp to have enough space
 export APPTAINER_TMPDIR=${SCRIPT_DIR}/../tmp
@@ -43,10 +44,10 @@ rm -rf *.sif
 
 if [[ "$TARGET_ARCH" == "cpu" ]]; then
     echo -e "${GREEN}Building CPU apptainer image${RESET}"
-    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain.sif lammps-chemtrain.def
+    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain_${version_tag}.sif lammps-chemtrain.def
 elif [[ "$TARGET_ARCH" == "cuda" ]]; then
     echo -e "${GREEN}Building CUDA apptainer image${RESET}"
-    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain-cuda.sif lammps-chemtrain-cuda.def
+    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain-cuda_${version_tag}.sif lammps-chemtrain-cuda.def
 else
     echo -e "${RED}Invalid target Architecture!${RESET}"
     exit 1
