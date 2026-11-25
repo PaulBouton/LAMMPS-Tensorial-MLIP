@@ -38,6 +38,26 @@ fi
 pip install -e "${SCRIPT_DIR}/../tensorial[dev]"
 pip install -e "${SCRIPT_DIR}/../tensorial[docs]"
 
-pip install -r "${SCRIPT_DIR}/../requirements.txt"
+if [[ "$TARGET_ARCH" == "cuda" ]]; then
+    #Use coherent jax lib versions between chemtrain (jax[cuda]) and tensorial (jax)
+    if [[ "$TARGET_ARCH" == "cuda" ]]; then
+        #Get The Jaxlib version (non cuda one) from tensorial
+        jaxlib_version="$(python -c 'import jaxlib; print(jaxlib.__version__)')"
 
+        #Remove unused tensorial jax versions (jax, jaxlib and the cuda plugin/pjrt).
+        unused_jax="$(pip freeze \
+            | grep -E '^(jax|jaxlib|jax-cuda1[23]-(plugin|pjrt))==' \
+            | grep -v "==${jaxlib_version}$" \
+            | cut -d'=' -f1 || true)"
+
+        if [[ -n "${unused_jax}" ]]; then
+            echo -e "${YELLOW}Removing unused jax versions, keeping ${jaxlib_version}${RESET}"
+            pip uninstall -y ${unused_jax}
+        fi
+    #Install jax[cuda] with the same jax version that tensorial
+    pip install "jax[cuda${MAIN_CUDA_VERSION}]==${jaxlib_version}"
+    fi
+fi
+
+pip install -r "${SCRIPT_DIR}/../requirements.txt"
 pip install --upgrade pip
