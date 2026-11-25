@@ -29,20 +29,22 @@ The LAMMPS distribution includes the following files and directories:
 | `LICENSE` | the GNU General Public License (GPLv2) |
 | `CITATION.cff` | Citation information for LAMMPS in CFF format |
 | `apptainer` | Build apptainer container with LAMMPS Chemtrain code |
+| `bash` | Bash scripts to build containers and setup environments |
 | `bench` | benchmark inputs |
+| `chemtrain` | Chemtrain Git submodule|
 | `cmake` | CMake build files |
 | `doc` | documentation |
 | `examples` | example inputs for many LAMMPS commands |
+| `hooks` | Git Custom hooks to use if you want to contribute |
 | `lib` | additional provided or external libraries |
 | `potentials` | interatomic potential files |
 | `python` | Python module for LAMMPS |
+| `ressources` | Scientific documentation and schemes|
 | `src` | source files |
+| `tensorial` | Tensorial Git submodule|
 | `tools` | pre- and post-processing tools |
 | `unittest` | test programs for use with CTest |
 | `.github` | Git and GitHub related files and tools |
-| `chemtrain` | Chemtrain Git submodule|
-| `tensorial` | Tensorial Git submodule|
-| `ressources` | Scientific documentation and schemes|
 
 ## Documentation
 
@@ -71,7 +73,7 @@ make pdf                 # creates Manual.pdf
 
 #### Python venv initialisation
 
-First install all required Python packages in your Python venv:
+**First install all required Python packages in your Python venv** using the followinf script:
 
 ```bash
 ./bash/setup_python_venv.bash <path_to_your_python_venv>
@@ -143,7 +145,7 @@ Please note that for the **CUDA** container, you'll need to modify the script `b
 # Run LAMMPS (CPU)
 export NP=<number_of_CPU> && apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
 # Run LAMMPS (CUDA)
-export NP=<number_of_GPU> && apptainer run --nv lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial-gpu
+export NP=<number_of_GPU> && apptainer run --nv lammps-chemtrain-cuda.sif lmp in.chemtrain-deploy-bulk-tensorial-gpu
 # Export model checkpoint to a ptb file which can be read by LAMMPS
 apptainer run lammps-chemtrain.sif export -c config.yaml -ck last.cpkt
 ```
@@ -159,8 +161,14 @@ pytest python/model-export/tests/test_export_model.py -v
 
 ## Git Hooks
 
-To enable custom Git hooks, run the following command:
+If you want to contribute, **you have to** enable custom Git hooks running the following command:
 
 ```bash
 ./bash/setup_hooks.bash
 ```
+
+## Github CI
+
+All GitHub CI pipelines are stored in ```.github/workflows```.
+
+These pipelines must pass before a pull request can be merged.
