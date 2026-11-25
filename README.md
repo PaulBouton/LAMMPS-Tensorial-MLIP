@@ -1,7 +1,5 @@
 # LAMMPS CHEMTRAIN DEPLOY
 
-![TENSORS](./ressources/imgs/tensors.png)
-
 [![CI](https://github.com/PaulBouton/lammps-chemtrain/actions/workflows/LAMMPS-chemtrain-github-actions.yml/badge.svg)](https://github.com/PaulBouton/lammps-chemtrain/actions/workflows/LAMMPS-chemtrain-github-actions.yml) [![Paper](https://img.shields.io/badge/Paper-chemtrain-blue)](https://doi.org/10.1016/j.cpc.2025.109512) [![Paper](https://img.shields.io/badge/Paper-chemtrain--deploy-blue)
 ](https://doi.org/10.1021/acs.jctc.5c00996) [![LAMMPS fork](https://img.shields.io/badge/LAMMPS_fork-chemtrain--deploy-yellow)](https://github.com/tummfm/lammps/tree/chemtrain-deploy)
 
