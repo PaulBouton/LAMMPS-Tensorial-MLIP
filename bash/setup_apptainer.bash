@@ -23,6 +23,9 @@ fi
 
 echo -e "${GREEN}${BOLD}Targeted Compression Level : $COMPRESSION_LEVEL${BOLD}"
 
+#Get Git info and store them for version control
+${SCRIPT_DIR}/get_git_info.bash
+
 #Change tmp to have enough space
 export APPTAINER_TMPDIR=${SCRIPT_DIR}/../tmp
 rm -rf ${APPTAINER_TMPDIR}

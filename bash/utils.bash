@@ -14,6 +14,9 @@ RESET=$'\033[0m'
 #Core count
 n_cores=$(nproc --all)
 
+#Versioning infos
+git_info_file="${SCRIPT_DIR}/VERSIONS.txt"
+
 #Lib Versions
 
 #Python

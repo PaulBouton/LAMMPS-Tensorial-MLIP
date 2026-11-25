@@ -38,6 +38,8 @@ From: ubuntu:26.04
     cmake ../cmake --preset=chemtrain
     make -j "$(nproc)"
     
+    mv {{ APP_DIR }}/bash/${git_info_file} {{ APP_DIR }}
+
     {{ APP_DIR }}/bash/clean_apptainer.bash {{ APP_DIR }} {{ PYTHON_VENV_DIR }} 
 
 %runscript
