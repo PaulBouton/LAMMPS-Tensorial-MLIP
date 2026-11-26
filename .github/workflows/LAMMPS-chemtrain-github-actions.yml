@@ -103,4 +103,4 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run ShellCheck
         run: |
-          shellcheck --severity=warning bash/*.bash
+          shellcheck --severity=error bash/*.bash
