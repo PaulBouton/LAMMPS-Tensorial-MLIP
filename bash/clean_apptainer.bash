@@ -27,28 +27,28 @@ apt-get clean -y
 rm -rf /var/lib/apt/lists/*
 
 #Clean chemtrain directory
-rm -rf ${APP_DIR}/chemtrain/!(chemtrain|jax_md_mod)
+rm -rf "${APP_DIR}"/chemtrain/!(chemtrain|jax_md_mod)
 
 #Remove tools only needed for build
 rm -rf CMakeCache.txt CMakeFiles Makefile cmake_install.cmake
-rm -rf ${APP_DIR}/tensorial/!(src)
-rm -rf ${APP_DIR}/cmake
-rm -rf ${APP_DIR}/src/!(CHEMTRAIN-DEPLOY)
-rm -rf ${APP_DIR}/build/styles ${APP_DIR}/build/include
+rm -rf "${APP_DIR}"/tensorial/!(src)
+rm -rf "${APP_DIR}"/cmake
+rm -rf "${APP_DIR}"/src/!(CHEMTRAIN-DEPLOY)
+rm -rf "${APP_DIR}"/build/styles "${APP_DIR}"/build/include
 
 #Clean model-export python directory
-rm -rf ${APP_DIR}/python/!(model-export)
-rm -rf ${APP_DIR}/python/model-export/*test*
-rm -rf ${APP_DIR}/python/model-export/__pycache__
+rm -rf "${APP_DIR}"/python/!(model-export)
+rm -rf "${APP_DIR}"/python/model-export/*test*
+rm -rf "${APP_DIR}"/python/model-export/__pycache__
 
 #Pip cleaning
 pip cache purge
-find ${APP_DIR} -type d -name __pycache__ -prune -exec rm -rf {} +
-find ${PYTHON_VENV_DIR} -type d \( -name tests -o -name test \) -prune -exec rm -rf {} +
-find ${PYTHON_VENV_DIR} -name '*.a' -delete
-find ${PYTHON_VENV_DIR} -name '*.pyc' -delete
-rm -rf ${PYTHON_VENV_DIR}/lib/python*/site-packages/nvidia/*/include
-rm -rf ${PYTHON_VENV_DIR}/share
+find "${APP_DIR}" -type d -name __pycache__ -prune -exec rm -rf {} +
+find "${PYTHON_VENV_DIR}" -type d \( -name tests -o -name test \) -prune -exec rm -rf {} +
+find "${PYTHON_VENV_DIR}" -name '*.a' -delete
+find "${PYTHON_VENV_DIR}" -name '*.pyc' -delete
+rm -rf "${PYTHON_VENV_DIR}"/lib/python*/site-packages/nvidia/*/include
+rm -rf "${PYTHON_VENV_DIR}"/share
 
 #Remove Python test and code coverage packages
 pip uninstall -y pytest pytest_cov pytest_mock pytest_env \
@@ -85,7 +85,10 @@ pip uninstall -y \
   flit flit_core build tomli_w ruff ty
 
 #System cleaning
+# shellcheck disable=SC2114
 rm -rf /usr/share
 rm -rf /root/.cache
 rm -rf /root/.local
+
+cd "${CUR_DIR}"
 

@@ -24,6 +24,7 @@ rm -rf "${VENV_DIR}"
 mkdir "${VENV_DIR}"
 
 ${python_version} -m venv "${VENV_DIR}"
+# shellcheck source=/dev/null
 source "${VENV_DIR}/bin/activate"
 
 #Install needed pip
@@ -52,7 +53,7 @@ if [[ "$TARGET_ARCH" == "cuda" ]]; then
 
         if [[ -n "${unused_jax}" ]]; then
             echo -e "${YELLOW}Removing unused jax versions, keeping ${jaxlib_version}${RESET}"
-            pip uninstall -y ${unused_jax}
+            pip uninstall -y "${unused_jax}"
         fi
     #Install jax[cuda] with the same jax version that tensorial
     pip install "jax[cuda${MAIN_CUDA_VERSION}]==${jaxlib_version}"
@@ -61,3 +62,5 @@ fi
 
 pip install -r "${SCRIPT_DIR}/../requirements.txt"
 pip install --upgrade pip
+
+cd "${CUR_DIR}"

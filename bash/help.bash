@@ -1,3 +1,5 @@
+#!/bin/bash
+# shellcheck disable=all
 # Run LAMMPS (CPU)
 export NP=<number_of_CPU> && apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
 

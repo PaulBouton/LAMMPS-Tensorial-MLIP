@@ -95,3 +95,12 @@ jobs:
           mkdir build && cd build
           cmake ../cmake --preset=chemtrain
           make -j $(nproc --all)
+
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck
+        run: |
+          shellcheck --severity=error bash/*.bash
