@@ -169,10 +169,17 @@ apptainer run lammps-chemtrain.sif export -c config.yaml -ck last.cpkt
 ```
 **Please note that the ```export NP``` is only required if you want to restrict ressources usage. You can omit it if it's not the case.**
 
+## Tests and checks tools
 To test the export-model script, run the following command :
 
 ```bash
 source <path_to_your_venv>/bin/activate
 cd lammps-chemtrain
 pytest python/model-export/tests/test_export_model.py -v
+```
+
+For all your bash script please use [shellcheck](https://manpages.ubuntu.com/manpages/jammy/man1/shellcheck.1.html) to avoid bash errors:
+
+```bash
+shellcheck -- --severity=warning script.bash
 ```
