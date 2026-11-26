@@ -68,7 +68,7 @@ From: ubuntu:26.04
             exec {{ PYTHON_VENV_DIR }}/bin/python {{ APP_DIR }}/python/model-export/export-model.py "$@"
             ;;
         help)
-            exec batcat --theme="Monokai Extended" --style=plain {{ APP_DIR }}/bash/help.bash
+            exec batcat --line-range 3: --theme="Monokai Extended" --style=plain {{ APP_DIR }}/bash/help.bash
             ;;
         *)
            echo "Unknown command: $cmd" >&2; exit 1

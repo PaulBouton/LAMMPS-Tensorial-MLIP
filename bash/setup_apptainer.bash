@@ -24,37 +24,37 @@ fi
 echo -e "${GREEN}${BOLD}Targeted Compression Level : $COMPRESSION_LEVEL${BOLD}"
 
 #Get Git info and store them for version control
-${SCRIPT_DIR}/get_git_info.bash
+"${SCRIPT_DIR}"/get_git_info.bash
 version_tag=$(git describe --tags --abbrev=0)
 
 #Change tmp to have enough space
 export APPTAINER_TMPDIR=${SCRIPT_DIR}/../tmp
-rm -rf ${APPTAINER_TMPDIR}
-mkdir ${APPTAINER_TMPDIR}
+rm -rf "${APPTAINER_TMPDIR}"
+mkdir "${APPTAINER_TMPDIR}"
 
 echo -e "${GREEN}Cleaning Chemtrain directory${RESET}"
 rm -rf chemtrain
 git submodule update --init --recursive
 
 echo -e "${GREEN}Cleaning previous Apptainer builds${RESET}"
-cd ${SCRIPT_DIR}/../apptainer
+cd "${SCRIPT_DIR}"/../apptainer
 apptainer cache clean --force
 rm -rf ~/.apptainer/cache/*
 rm -rf *.sif
 
 if [[ "$TARGET_ARCH" == "cpu" ]]; then
     echo -e "${GREEN}Building CPU apptainer image${RESET}"
-    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain_${version_tag}.sif lammps-chemtrain.def
+    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain_"${version_tag}".sif lammps-chemtrain.def
 elif [[ "$TARGET_ARCH" == "cuda" ]]; then
     echo -e "${GREEN}Building CUDA apptainer image${RESET}"
-    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain-cuda_${version_tag}.sif lammps-chemtrain-cuda.def
+    apptainer build --mksquashfs-args "-comp zstd -Xcompression-level ${COMPRESSION_LEVEL}" lammps-chemtrain-cuda_"${version_tag}".sif lammps-chemtrain-cuda.def
 else
     echo -e "${RED}Invalid target Architecture!${RESET}"
     exit 1
 fi
 
 echo -e "${GREEN} Cleaning${RESET}"
-rm -rf ${APPTAINER_TMPDIR}
+rm -rf "${APPTAINER_TMPDIR}"
 
-cd ${CUR_DIR}
+cd "${CUR_DIR}"
 echo -e "${GREEN} Done${RESET}"
