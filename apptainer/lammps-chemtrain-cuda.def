@@ -23,7 +23,7 @@ From: ubuntu:26.04
     source {{ APP_DIR }}/bash/utils.bash
 
     apt-get -o Acquire::Retries=5  update
-    apt-get -o Acquire::Retries=5  install --no-install-recommends -y git build-essential wget libopenmpi-dev openmpi-bin curl software-properties-common cmake patchelf clang
+    apt-get -o Acquire::Retries=5  install --no-install-recommends -y git build-essential wget libopenmpi-dev openmpi-bin curl software-properties-common cmake patchelf clang bat
 
     add-apt-repository -y ppa:deadsnakes/ppa
     apt-get -o Acquire::Retries=5  update
@@ -66,6 +66,9 @@ From: ubuntu:26.04
             ;;
         export)
             exec {{ PYTHON_VENV_DIR }}/bin/python {{ APP_DIR }}/python/model-export/export-model.py "$@"
+            ;;
+        help)
+            exec batcat --theme="Monokai Extended" --style=plain {{ APP_DIR }}/bash/help.bash
             ;;
         *)
            echo "Unknown command: $cmd" >&2; exit 1

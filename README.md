@@ -158,6 +158,8 @@ Please note that for the **CUDA** container, you'll need to modify the script `b
 ./bash/setup_apptainer.bash cuda #For the CUDA version
 
 #Run The containers
+#Display some help
+apptainer run lammps-chemtrain.sif help
 # Run LAMMPS (CPU)
 export NP=<number_of_CPU> && apptainer run lammps-chemtrain.sif lmp in.chemtrain-deploy-bulk-tensorial
 # Run LAMMPS (CUDA)
